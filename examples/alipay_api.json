@@ -1,0 +1,158 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "支付宝支付API",
+    "version": "1.0.0",
+    "description": "支付宝支付接口文档"
+  },
+  "paths": {
+    "/pay": {
+      "post": {
+        "summary": "创建支付订单",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "支付订单创建成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PayResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/query": {
+      "get": {
+        "summary": "查询支付订单",
+        "parameters": [
+          {
+            "name": "outTradeNo",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "商户订单号"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "订单查询成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PayRequest": {
+        "type": "object",
+        "properties": {
+          "outTradeNo": {
+            "type": "string",
+            "description": "商户订单号"
+          },
+          "totalAmount": {
+            "type": "string",
+            "description": "订单金额，单位为元，精确到小数点后两位"
+          },
+          "subject": {
+            "type": "string",
+            "description": "订单标题"
+          },
+          "notifyUrl": {
+            "type": "string",
+            "description": "支付结果通知地址"
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "发送请求的时间，格式为yyyy-MM-dd HH:mm:ss"
+          }
+        },
+        "required": ["outTradeNo", "totalAmount", "subject"]
+      },
+      "PayResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "返回码",
+            "example": "10000"
+          },
+          "msg": {
+            "type": "string",
+            "description": "返回信息"
+          },
+          "tradeNo": {
+            "type": "string",
+            "description": "支付宝交易号"
+          },
+          "outTradeNo": {
+            "type": "string",
+            "description": "商户订单号"
+          },
+          "qrCode": {
+            "type": "string",
+            "description": "二维码链接"
+          }
+        }
+      },
+      "QueryResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "返回码"
+          },
+          "msg": {
+            "type": "string",
+            "description": "返回信息"
+          },
+          "tradeNo": {
+            "type": "string",
+            "description": "支付宝交易号"
+          },
+          "outTradeNo": {
+            "type": "string",
+            "description": "商户订单号"
+          },
+          "tradeStatus": {
+            "type": "string",
+            "description": "交易状态：WAIT_BUYER_PAY（交易创建，等待买家付款）、TRADE_CLOSED（未付款交易超时关闭）、TRADE_SUCCESS（交易支付成功）、TRADE_FINISHED（交易结束，不可退款）"
+          },
+          "totalAmount": {
+            "type": "string",
+            "description": "订单金额"
+          },
+          "gmtCreate": {
+            "type": "string",
+            "description": "交易创建时间"
+          },
+          "gmtPayment": {
+            "type": "string",
+            "description": "交易付款时间"
+          }
+        }
+      }
+    }
+  }
+}
