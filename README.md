@@ -27,9 +27,19 @@ xtchannel/
 ```
 
 ## 开发环境搭建
-1. 安装依赖
-2. 配置环境变量
-3. 启动服务
+1. 后端服务启动
+```bash
+cd backend
+source venv/bin/activate  # 激活Python虚拟环境
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+2. 前端服务启动
+```bash
+cd frontend
+npm install --legacy-peer-deps  # 首次安装或依赖有更新时运行
+npm start
+```
 
 ## 贡献指南
 欢迎提交Issue和Pull Request
